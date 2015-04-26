@@ -1,0 +1,14 @@
+{
+  "name": "sports-rosters",
+  "version": "0.0.1",
+  "description": "An app to get sports roster data and display it in useable ways",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DAN!",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
