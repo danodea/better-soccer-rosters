@@ -17,7 +17,7 @@ var urls = {
 	"New England Revolution": "http://www.revolutionsoccer.net/players",
 	"NYCFC": "http://www.nycfc.com/players",
 	"New York Red Bulls": "http://www.newyorkredbulls.com/players",
-	"Orlando City SC": "http://www.orlandocitysoccer.com/players",
+	"Orlando City SC": "http://www.orlandocitysc.com/players",
 	"Philadelpia Union": "http://www.philadelphiaunion.com/players",
 	"Portland Timbers": "http://www.timbers.com/players",
 	"Real Salt Lake": "http://www.realsaltlake.com/players",
@@ -64,6 +64,9 @@ var OldStylePlayer = function(playerHtml) {
 //the 'master' roster array
 var rosters = [];
 
+//the file to which we will write the roster data
+var rosterFile = 'rosterBackup-' + new Date().toISOString().split(':').join('').slice(0,-5) + '.json';
+
 //this will be called after the parsing is done for each team
 //once all 20 teams are done, it'll do _something_ with the
 //master roster list
@@ -71,7 +74,12 @@ var rosters = [];
 var checkComplete = function(teamRoster) {
 	rosters.push(teamRoster);
 	if (rosters.length == 20) {
-		console.log(rosters);
+		fs.writeFile(rosterFile, JSON.stringify(rosters), function(err, string) {
+			if (err) {
+				console.log(err);
+			};
+			console.log('Successfully wrote rosters to ' + rosterFile)
+		})
 	}
 };
 
@@ -79,6 +87,19 @@ var checkComplete = function(teamRoster) {
 //a closure to make the loop work correctly
 var requestClosure = function(url, team) {
 		request(url, function (error, response, body) {
+			if (error) {
+				//log the error and the offending team
+				console.log(error);
+				console.log(team);
+
+				//shove the team name and error into an array
+				//and send it to our completion function
+				var teamRoster = [];
+				teamRoster.push(team);
+				teamRoster.push(error);
+				checkComplete(teamRoster)
+			};
+
 			if (!error && response.statusCode == 200) {
 				//cheerio is essentially serve side jquery
 				//load the body in and we can use jquery selectors
