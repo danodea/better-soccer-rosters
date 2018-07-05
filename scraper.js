@@ -6,13 +6,16 @@ var fs = require('fs');
 
 //the urls for each team's roster
 var urls = {
+	"Atlanta United": "https://www.atlutd.com/players",
 	"Chicago Fire": "http://www.chicago-fire.com/players",
 	"Colorado Rapids": "http://www.coloradorapids.com/players",
 	"Columbus Crew": "http://www.columbuscrewsc.com/players",
 	"DC United": "http://www.dcunited.com/players",
 	"FC Dallas": "http://www.fcdallas.com/players",
 	"Houston Dynamo": "http://www.houstondynamo.com/players",
+	"LAFC": "https://www.lafc.com/players",
 	"LA Galaxy": "http://www.lagalaxy.com/players",
+	"Minnesota United": "https://www.mnufc.com/players",
 	"Montreal Impact": "http://www.impactmontreal.com/players",
 	"New England Revolution": "http://www.revolutionsoccer.net/players",
 	"NYCFC": "http://www.nycfc.com/players",
@@ -97,7 +100,6 @@ var requestClosure = function(url, team) {
 				//check to see which kind of website they are using,
 				//then call the approriate parser!
 				if ($('.player_list').length) {
-					newSite += 1;
 					$('.player_info').each(function() {
 						teamRoster.push(new NewStylePlayer(this));
 					});
