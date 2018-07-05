@@ -28,11 +28,6 @@ var urls = {
 	"Vancouver Whitecaps": "http://www.whitecapsfc.com/players"
 };
 
-//MLS digital media has 2 kinds of team websites right now:
-//their old, shitty style and their new, less shitty but still
-//bad style.
-//We need 2 parsers to handle the 2 kinds of sites, so here are
-//the player objects for thems.
 //These will be pushed to the roster arrays for each team,
 //and that will be pushed to a 'master' roster array
 var NewStylePlayer = function(playerHtml) {
@@ -46,19 +41,6 @@ var NewStylePlayer = function(playerHtml) {
 	self.weight = $(playerHtml).find('.weight').text().trim();
 	self.homeTown = $(playerHtml).children('.hometown').text().trim();
 	// self.twitter = $(playerHtml).children('.views-field-field-player-twitter-username-value').children('a').attr('href');
-};
-
-var OldStylePlayer = function(playerHtml) {
-	var self = this;
-	var $ = cheerio.load(playerHtml);
-	self.name = $(playerHtml).children('.views-field-field-player-lname-value').text().trim();
-	self.jerseyNumber = $(playerHtml).children('.views-field-field-player-jersey-no-value').text().trim();
-	self.position = $(playerHtml).children('.views-field-field-player-jersey-no-value').text().trim();
-	self.age = $(playerHtml).children('.views-field-field-player-birth-date-value-1').text().trim();
-	self.height = $(playerHtml).children('.views-field-field-player-height-value').text().trim();
-	self.weight = $(playerHtml).children('.views-field-field-player-weight-value').text().trim();
-	self.birthCountry = $(playerHtml).children('.views-field-field-player-birth-country-value').text().trim();
-	self.twitter = $(playerHtml).children('.views-field-field-player-twitter-username-value').children('a').attr('href');
 };
 
 //the 'master' roster array
@@ -101,7 +83,7 @@ var requestClosure = function(url, team) {
 			};
 
 			if (!error && response.statusCode == 200) {
-				//cheerio is essentially serve side jquery
+				//cheerio is essentially server side jquery
 				//load the body in and we can use jquery selectors
 				var $ = cheerio.load(body);
 
@@ -115,11 +97,13 @@ var requestClosure = function(url, team) {
 				//check to see which kind of website they are using,
 				//then call the approriate parser!
 				if ($('.player_list').length) {
+					newSite += 1;
 					$('.player_info').each(function() {
 						teamRoster.push(new NewStylePlayer(this));
 					});
 					checkComplete(teamRoster);
 				} else if ($('.view-content').length) {
+					oldSite += 1;
 					$('.odd, .even').each(function() {
 						teamRoster.push(new OldStylePlayer(this));
 					});
