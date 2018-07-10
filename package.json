@@ -1,16 +1,34 @@
 {
-  "name": "sports-rosters",
+  "name": "mls-roster-scraper",
+  "description": "Scraper to grab data from MLS roster sites",
   "version": "0.0.1",
-  "description": "An app to get sports roster data and display it in useable ways",
-  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "DAN!",
-  "license": "ISC",
+  "author": {
+    "name": "Dan O'Dea",
+    "email": "danodea@gmail.com"
+  },
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danodea/mls-roster-scraper"
+  },
+  "keywords": [
+    "soccer",
+    "mls",
+    "scraper",
+    "sports"
+  ],
   "dependencies": {
     "cheerio": "^0.19.0",
     "express": "^4.12.3",
     "request": "^2.55.0"
-  }
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "lib/"
+  ]
 }
